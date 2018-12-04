@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-# TODO localouifile in user's home with os module for cross platform
+# TODO localouifile in user's home with os module for cross platform work
 
 
 class OuiData:
