@@ -48,4 +48,4 @@ class OUIData:
 
 a = OUIData(config.oui_url, config.oui_file)
 
-print(list(a.recieveandparse()))
+print("OUI {} is {}\nbased in {}".format(list(a.recieveandparse())[0][0], list(a.recieveandparse())[0][1], list(a.recieveandparse())[0][4]))
