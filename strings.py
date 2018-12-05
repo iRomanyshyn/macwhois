@@ -8,7 +8,8 @@ You can search MAC addresses like this:
     112233445566        (without any other symbols);
     11-22-33-44-55-66   (with dash after every two chars);
     11:22:33:44:55:66   (with semicolons after every two chars);
-    1122.3344.5566      (with dot after every four chars).
+    1122.3344.5566      (with dot after every four chars);
+    1122-3344-5566      (with dash after every four chars).
 
 You can search as many MACs as you want by passing them as command line parameters with spaces between it:
 
@@ -18,10 +19,14 @@ or you can try to provide it a file with MAC addresses which contains MAC addres
 
 macwhois $(cat [file.txt])
 
-You can use it interactively while started with -i argument."""
+You can use it interactively while started with -i argument.
+
+Exit codes: 0 = OK, 1 = can't open data source."""
 
 downloading = "Downloading fresh OUI file..."
 
 fail_download = "Error while trying to get fresh IEEE OUI file:"
 
 fail_open = "Can't open local OUI data:"
+
+fail_all = "Failed to open both local and remote data. We can't use any data source, so we can only exit."

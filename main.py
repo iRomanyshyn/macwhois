@@ -1,30 +1,51 @@
 #!/usr/bin/python3
 
-import requests
-import re
+import requests  # For easy OUI file downloading
+import re  # For regular expressions
+import pickle  # To save and load local OUI data
 
-import config
-import strings
+import config  # Our config file
+import strings  # Our strings file
 
-# TODO localouifile in user's home with os module for cross platform work
 
-ouiparseregex = r"^([0-9a-f]{6})\s*\(.{7}\)\s*(.+)$"
+ouipattern = r"([0-9a-fA-F]{6})\s+\(.{7}\)\s+(.+)\n\s*(.*)\n\s*(.*)\n\s*(.*)"  # Seems to be good
+
 
 class OUIData:
-    def __init__(self, oui, org):
-        self.oui = oui
-        self.org = org
-
-    def download(self, url):
+    def __init__(self, url: str, file: str):
         self.url = url
-        return requests.get(self.url)
+        self.file = file
+
+        self.open()
 
     def open(self):
-        pass
+        try:
+            with open(self.file, 'rb') as ouifile:
+                ouidata = pickle.load(ouifile)
+        except Exception as exc:
+            print(strings.fail_open, exc)
+            self.recieveandparse()
+        for oui in ouidata:
+            yield oui
+
+    def recieveandparse(self, forced: bool = False):
+        print(strings.downloading)
+        try:
+            downloaded = requests.get(config.oui_url)  # TODO exceptions
+        except Exception as exc:
+            print(strings.fail_all, exc)
+            if not forced:
+                print(strings.fail_all)
+                exit(1)
+        if downloaded.ok:
+            ouidata = re.findall(ouipattern, downloaded.text)
+            return ouidata
 
 
-    # TODO OuiDownloadFailed exception
+    def save(self):
+        pass # TODO
 
-a = OUIData.download(config.oui_url)
 
-print(re.search(ouiparseregex, a.text,'gmi'))
+a = OUIData(config.oui_url, config.oui_file)
+
+print(list(a.recieveandparse()))
