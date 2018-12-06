@@ -43,9 +43,12 @@ class OUIData:
 
 
     def save(self):
-        pass # TODO
+        pass  # TODO
 
 
-a = OUIData(config.oui_url, config.oui_file)
+ouidata = OUIData(config.oui_url, config.oui_file)
 
-print("OUI {} is {}\nbased in {}".format(list(a.recieveandparse())[0][0], list(a.recieveandparse())[0][1], list(a.recieveandparse())[0][4]))
+ouilist = list(ouidata.recieveandparse())
+
+for i in range(len(ouilist)):
+    print("OUI {} is {} based in {}".format(ouilist[i][0], ouilist[i][1], ouilist[i][4]))

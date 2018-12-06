@@ -15,7 +15,7 @@ You can search as many MACs as you want by passing them as command line paramete
 
 macwhois [MAC1] [MAC2] [...] [MACn]
 
-or you can try to provide it a file with MAC addresses which contains MAC addresses separated by spaces or newlines:
+or you can try to provide it ouidata file with MAC addresses which contains MAC addresses separated by spaces or newlines:
 
 macwhois $(cat [file.txt])
 
